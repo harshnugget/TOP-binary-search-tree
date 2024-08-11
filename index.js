@@ -12,3 +12,7 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
     prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
   }
 };
+
+const tree = new Tree([1, 5, 8, 9, 10]);
+
+prettyPrint(tree.root);

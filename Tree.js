@@ -1,31 +1,35 @@
 import Node from './Node.js';
 
-// Initialize start = 0, end = length of the array - 1
-// mid = (start+end)/2
-// Create a tree node with mid as root (node A)
-// Recursively do following:
-// Calculate mid of left subarray and make it root of left subtree of A
-// Calculate mid of right subarray and make it root of right subtree of A
-
 class Tree {
   constructor(array) {
-    this.root = null;
     this.array = array;
+    this.root = this.buildTree(); // Build the tree and store the root node
   }
 
-  buildTree(array) {
-    if (!array || !Array.isArray(array)) {
+  buildTree(array = this.array, start = 0, end = this.array.length - 1) {
+    // Validate array
+    if (!Array.isArray(array)) {
       throw Error(`Cannot build tree. Invalid array: ${array}`);
     }
 
-    // Start node (start of array)
-    const start = 0;
+    // Base case: If array's start index is greater than its end index, return null
+    if (start > end) {
+      return null;
+    }
 
-    // End node (end of array)
-    const end = this.array.length - 1;
+    // Find the middle element of the current subarray
+    const mid = Math.floor((start + end) / 2);
 
-    // Middle node (middle of array)
-    const mid = (start + end) / 2;
+    // Create a node with the middle value
+    const root = new Node(array[mid]);
+
+    // Recursively build the left subtree using the left half of the current subarray
+    root.left = this.buildTree(array, start, mid - 1);
+
+    // Recursively build the right subtree using the right half of the current subarray
+    root.right = this.buildTree(array, mid + 1, end);
+
+    return root;
   }
 }
 

@@ -1,6 +1,6 @@
 node_modules
 eslint.config.js
 src
-webpack.common.js
-webpack.dev.js
-webpack.prod.js
+webpack.common.cjs
+webpack.dev.cjs
+webpack.prod.cjs
