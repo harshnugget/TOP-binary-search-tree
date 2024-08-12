@@ -32,35 +32,44 @@ class Tree {
   }
 
   insert(value) {
-    /*
-    node = new Node(value)
+    if (value === undefined || value === null) {
+      throw Error(`No value provided. Value: ${value}`);
+    }
+    // Create a node with the specified value
+    const node = new Node(value);
 
-    if this.root is null
-        this.root = node
+    // If root is null, set the node as root
+    if (this.root === null) {
+      return (this.root = node);
+    }
 
-    else
-        create currentRoot variable
-        set currentRoot as this.root
+    // Initialize currentRoot as trees root node
+    let currentRoot = this.root;
 
-        while currentRoot is not null...
+    while (currentRoot) {
+      // Prevent duplicates
+      if (value === currentRoot.data) {
+        return;
+      }
 
-            if value is equal to currentRoot.data (prevent duplicates)
-                return
-
-            if value is less than currentRoot.data
-                if currentRoot.left is null
-                    currentRoot.left = node
-                    return
-                else 
-                    currentRoot = currentRoot.left
-
-            else if value is greater than currentRoot.data
-                if currentRoot.right is null
-                    currentRoot.right = node
-                    return
-                else
-                    currentRoot = currentRoot.right
-    */
+      if (value < currentRoot.data) {
+        // If currentRoot's left node doesn't exist, set it as the node
+        if (currentRoot.left === null) {
+          currentRoot.left = node;
+          return;
+        }
+        // Update currentRoot as currentRoot's left node (lower value)
+        currentRoot = currentRoot.left;
+      } else if (value > currentRoot.data) {
+        // If currentRoot's right node doesn't exist, set it as the node
+        if (currentRoot.right === null) {
+          currentRoot.right = node;
+          return;
+        }
+        // Update currentRoot is currentRoot's right node (greater value)
+        currentRoot = currentRoot.right;
+      }
+    }
   }
 }
 
