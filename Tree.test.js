@@ -2,7 +2,7 @@ import Tree from './Tree.js';
 
 describe('Tree', () => {
   // Test 1: Tree Initialization
-  test('Create an empty tree when given an empty array', () => {
+  test.only('Create an empty tree when given an empty array', () => {
     const tree = new Tree([]);
     expect(tree.root).toBeNull(); // The root be null for an empty tree
   });

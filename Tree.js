@@ -2,11 +2,10 @@ import Node from './Node.js';
 
 class Tree {
   constructor(array) {
-    this.array = array;
-    this.root = this.buildTree(); // Build the tree and store the root node
+    this.root = this.buildTree(array, 0, array.length - 1); // Build the tree and store the root node
   }
 
-  buildTree(array = this.array, start = 0, end = this.array.length - 1) {
+  buildTree(array, start, end) {
     // Validate array
     if (!Array.isArray(array)) {
       throw Error(`Cannot build tree. Invalid array: ${array}`);
@@ -30,6 +29,38 @@ class Tree {
     root.right = this.buildTree(array, mid + 1, end);
 
     return root;
+  }
+
+  insert(value) {
+    /*
+    node = new Node(value)
+
+    if this.root is null
+        this.root = node
+
+    else
+        create currentRoot variable
+        set currentRoot as this.root
+
+        while currentRoot is not null...
+
+            if value is equal to currentRoot.data (prevent duplicates)
+                return
+
+            if value is less than currentRoot.data
+                if currentRoot.left is null
+                    currentRoot.left = node
+                    return
+                else 
+                    currentRoot = currentRoot.left
+
+            else if value is greater than currentRoot.data
+                if currentRoot.right is null
+                    currentRoot.right = node
+                    return
+                else
+                    currentRoot = currentRoot.right
+    */
   }
 }
 
