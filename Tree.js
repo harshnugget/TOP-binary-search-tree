@@ -82,7 +82,7 @@ class Tree {
 
     // If node not found, return
     if (node === null) {
-      console.log(`Value: ${value} could not found in the BST.`);
+      console.log(`Value: ${value} could not be found in the BST.`);
       return;
     }
 

@@ -78,4 +78,29 @@ describe('Tree', () => {
     expect(tree.root.left.left).toBeNull(); // Ensure no extra node created
     expect(tree.root.right.right).toBeNull();
   });
+
+  // Test 8: Delete a value
+  describe('Delete values from tree', () => {
+    let tree;
+
+    beforeEach(() => {
+      const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+      tree = new Tree(array);
+    });
+
+    test('Delete a leaf node', () => {
+      tree.deleteItem(7);
+      expect(tree.root.right.left.right).toBe(null);
+    });
+
+    test('Delete a node with one child', () => {
+      tree.deleteItem(6);
+      expect(tree.root.right.left.data).toBe(7);
+    });
+
+    test('Delete the root', () => {
+      tree.deleteItem(5);
+      expect(tree.root.data).toBe(6);
+    });
+  });
 });

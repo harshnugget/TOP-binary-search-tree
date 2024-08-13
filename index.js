@@ -13,11 +13,9 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
   }
 };
 
-const tree = new Tree([
-  1, 2, 6, 10, 11, 12, 20, 25, 30, 32, 36, 38, 40, 43, 50, 60, 71, 77, 78, 80, 90,
-]);
+const tree = new Tree([]);
 
 prettyPrint(tree.root);
-tree.deleteItem(36);
+tree.deleteItem(5);
 console.log('###################################');
 prettyPrint(tree.root);
