@@ -18,5 +18,6 @@ const tree = new Tree([
 ]);
 
 prettyPrint(tree.root);
-tree.insert(100);
+tree.deleteItem(36);
+console.log('###################################');
 prettyPrint(tree.root);

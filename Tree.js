@@ -71,6 +71,36 @@ class Tree {
       }
     }
   }
+
+  deleteItem(value) {
+    if (value === undefined || value === null) {
+      throw Error(`No value provided. Value: ${value}`);
+    }
+
+    /* 
+    Find the node and its parent
+
+    If node not found, return
+
+    If node has 0 or 1 child
+      Create childNode variable
+      If node has a left child, set childNode to be the nodes left child
+      Otherwise, set childNode to be the nodes right child (could be null)
+
+      If the nodes parent is the node
+        Set the trees root to the child node
+        Else if the node is it's parents left child, set the parents left child to childNode
+        Else if the node is it's parents right child, set the parents right child to childNode
+
+    Else if node has two children
+      Find the successor and the successors parent
+
+      Replace nodes data with successors data
+
+      If the successor is the right child of the node, set nodes right child to successors right child
+        Otherwise, replace the successor with its right child (which can be null)
+    */
+  }
 }
 
 export default Tree;

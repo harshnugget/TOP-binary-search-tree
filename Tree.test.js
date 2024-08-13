@@ -2,7 +2,7 @@ import Tree from './Tree.js';
 
 describe('Tree', () => {
   // Test 1: Tree Initialization
-  test.only('Create an empty tree when given an empty array', () => {
+  test('Create an empty tree when given an empty array', () => {
     const tree = new Tree([]);
     expect(tree.root).toBeNull(); // The root be null for an empty tree
   });
@@ -43,5 +43,39 @@ describe('Tree', () => {
     expect(tree.root.data).toBe(42);
     expect(tree.root.left).toBeNull();
     expect(tree.root.right).toBeNull();
+  });
+
+  // Test 5: Insert into Empty Tree
+  test('Insert a value into an empty tree', () => {
+    const tree = new Tree([]);
+    tree.insert(10);
+    expect(tree.root.data).toBe(10);
+  });
+
+  // Test 6: Insert into Non-Empty Tree
+  test('Insert values into a non-empty tree', () => {
+    const array = [2, 4, 6];
+    const tree = new Tree(array);
+
+    [1, 3, 5, 7].forEach((value) => tree.insert(value));
+
+    expect(tree.root.left.left.data).toBe(1);
+    expect(tree.root.left.right.data).toBe(3);
+    expect(tree.root.right.left.data).toBe(5);
+    expect(tree.root.right.right.data).toBe(7);
+  });
+
+  // Test 7: Prevent Duplicate Insertions
+  test('Prevent duplicate values from being inserted', () => {
+    const array = [1, 2, 3];
+    const tree = new Tree(array);
+
+    tree.insert(2); // Attempt to insert a duplicate value
+
+    expect(tree.root.data).toBe(2);
+    expect(tree.root.left.data).toBe(1);
+    expect(tree.root.right.data).toBe(3);
+    expect(tree.root.left.left).toBeNull(); // Ensure no extra node created
+    expect(tree.root.right.right).toBeNull();
   });
 });
