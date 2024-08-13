@@ -100,6 +100,44 @@ class Tree {
       If the successor is the right child of the node, set nodes right child to successors right child
         Otherwise, replace the successor with its right child (which can be null)
     */
+
+    // Helper function to locate in-order successor and its parent
+    function findSuccessorAndParent(node) {
+      let successorParent = node;
+      let currentNode = node.right;
+      while (currentNode !== null && currentNode.left !== null) {
+        successorParent = currentNode;
+        currentNode = currentNode.left;
+      }
+
+      return { successorParent, successor: currentNode };
+    }
+
+    // Helper function to locate a node and its parent
+    function findNodeAndParent(root, value) {
+      let nodeParent = root;
+      let currentRoot = root;
+      let node = null;
+
+      while (currentRoot) {
+        if (value === currentRoot.data) {
+          node = currentRoot;
+          break;
+        }
+
+        nodeParent = currentRoot;
+
+        if (value < currentRoot.data) {
+          currentRoot = currentRoot.left;
+        } else if (value > currentRoot.data) {
+          currentRoot = currentRoot.right;
+        } else {
+          break;
+        }
+      }
+
+      return { nodeParent, node };
+    }
   }
 }
 
