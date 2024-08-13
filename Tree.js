@@ -1,7 +1,12 @@
-import Node from './Node.js';
-import insertItem from './insertItem.js';
-import deleteItemIterative from './deleteItemIterative.js';
-import deleteItemRecursive from './deleteItemRecursive.js';
+import buildTree from './TreeModules/buildTree.js';
+import find from './TreeModules/find.js';
+import height from './TreeModules/height.js';
+import insert from './TreeModules/insert.js';
+import deleteItemIterative from './TreeModules/deleteItemIterative.js';
+import deleteItemRecursive from './TreeModules/deleteItemRecursive.js';
+import depth from './TreeModules/depth.js';
+import isBalanced from './TreeModules/isBalanced.js';
+import { levelOrder, preOrder, inOrder, postOrder } from './TreeModules/orderTraversal.js';
 
 class Tree {
   constructor(array) {
@@ -9,61 +14,23 @@ class Tree {
   }
 
   buildTree(array, start, end) {
-    // Validate array
-    if (!Array.isArray(array)) {
-      throw Error(`Cannot build tree. Invalid array: ${array}`);
-    }
-
-    // Base case: If array's start index is greater than its end index, return null
-    if (start > end) {
-      return null;
-    }
-
-    // Find the middle element of the current subarray
-    const mid = Math.floor((start + end) / 2);
-
-    // Create a node with the middle value
-    const root = new Node(array[mid]);
-
-    // Recursively build the left subtree using the left half of the current subarray
-    root.left = this.buildTree(array, start, mid - 1);
-
-    // Recursively build the right subtree using the right half of the current subarray
-    root.right = this.buildTree(array, mid + 1, end);
-
-    return root;
+    return buildTree(array, start, end);
   }
 
   find(value) {
-    let currentRoot = this.root;
-
-    while (currentRoot) {
-      if (value === currentRoot.data) {
-        return currentRoot; // Value found
-      } else {
-        currentRoot = value < currentRoot.data ? currentRoot.left : currentRoot.right;
-      }
-    }
-
-    // Value not found
-    return null;
+    return find(this.root, value);
   }
 
-  height(root = this.root) {
-    if (root == null) return 0;
+  height() {
+    return height(this.root);
+  }
 
-    let leftSubtreeHeight = this.height(root.left);
-    let rightSubtreeHeight = this.height(root.right);
-
-    if (leftSubtreeHeight > rightSubtreeHeight) {
-      return leftSubtreeHeight + 1;
-    } else {
-      return rightSubtreeHeight + 1;
-    }
+  depth(targetRoot) {
+    return depth(this.root, targetRoot);
   }
 
   insert(value) {
-    this.root = insertItem(this.root, value);
+    this.root = insert(this.root, value);
   }
 
   deleteItem(value, method = 'iterative') {
@@ -74,133 +41,24 @@ class Tree {
     }
   }
 
-  levelOrder(root = this.root, callback) {
-    if (!callback) {
-      throw Error('Required a callback function as an argument');
-    }
-
-    // Add root to queue to initialize
-    const queue = [root];
-
-    // For every item in the queue
-    while (queue.length > 0) {
-      const currentNode = queue[0];
-      const leftChild = currentNode.left;
-      const rightChild = currentNode.right;
-
-      callback(currentNode);
-      queue.shift();
-
-      if (leftChild !== null) {
-        queue.push(leftChild);
-      }
-
-      if (rightChild !== null) {
-        queue.push(rightChild);
-      }
-    }
+  levelOrder(callback) {
+    levelOrder(this.root, callback);
   }
 
-  preOrder(root = this.root, callback) {
-    // Base:
-    if (root === null) {
-      return;
-    }
-
-    // Start: Root
-    callback(root);
-
-    // Mid: Traverse left sub-tree
-    this.preOrder(root.left, callback);
-
-    // End: Traverse right sub-tree
-    this.preOrder(root.right, callback);
-
-    return root;
+  preOrder(callback) {
+    preOrder(this.root, callback);
   }
 
-  inOrder(root = this.root, callback) {
-    // Base:
-    if (root === null) {
-      return;
-    }
-
-    // Start: Traverse left sub-tree
-    this.inOrder(root.left, callback);
-
-    // Mid: Root
-    callback(root);
-
-    // End: Traverse right sub-tree
-    this.inOrder(root.right, callback);
+  inOrder(callback) {
+    inOrder(this.root, callback);
   }
 
-  postOrder(root = this.root, callback) {
-    // Base:
-    if (root === null) {
-      return;
-    }
-
-    // Start: Traverse left sub-tree
-    this.postOrder(root.left, callback);
-
-    // Mid: Traverse right sub-tree
-    this.postOrder(root.right, callback);
-
-    // End: Root
-    callback(root);
+  postOrder(callback) {
+    postOrder(this.root, callback);
   }
 
-  depth(root) {
-    if (!root) {
-      throw Error('Requires a valid root as an argument');
-    }
-
-    let currentRoot = this.root;
-    let depth = 0;
-
-    while (currentRoot) {
-      if (currentRoot === root) {
-        // Target root found
-        return depth;
-      }
-
-      if (root.data < currentRoot.data) {
-        currentRoot = currentRoot.left;
-      } else {
-        currentRoot = currentRoot.right;
-      }
-
-      depth++;
-    }
-
-    // Target root not found
-    return -1;
-  }
-
-  isBalanced(root = this.root) {
-    // Base: return true when reached the end of a sub tree
-    if (root === null) {
-      return true;
-    }
-
-    // Get height of left sub tree
-    const leftSubtreeHeight = this.height(root.left);
-
-    // Get height of right sub tree
-    const rightSubtreeHeight = this.height(root.right);
-
-    // Check heights when reached end of each subtree
-    if (
-      Math.abs(leftSubtreeHeight - rightSubtreeHeight) <= 1 &&
-      this.isBalanced(root.left) === true &&
-      this.isBalanced(root.right) === true
-    ) {
-      return true;
-    }
-
-    // Returns false if tree is unbalanced
-    return false;
+  isBalanced() {
+    return isBalanced(this.root);
   }
 
   rebalance() {
@@ -210,7 +68,7 @@ class Tree {
       orderedArray.push(node.data);
     };
 
-    this.inOrder(this.root, callback);
+    this.inOrder(callback);
     this.root = this.buildTree(orderedArray, 0, orderedArray.length - 1);
   }
 }

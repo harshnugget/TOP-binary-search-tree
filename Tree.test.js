@@ -19,8 +19,6 @@ describe('Tree', () => {
     const array = [1, 2, 3, 4, 5, 6, 7];
     const tree = new Tree(array);
 
-    console.log(tree);
-
     // Check root node
     expect(tree.root.data).toBe(4);
 
@@ -142,17 +140,14 @@ describe('Tree', () => {
   test('Get tree height', () => {
     let array = [1, 2, 3];
     let tree = new Tree(array);
-
     expect(tree.height()).toBe(2);
 
     array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     tree = new Tree(array);
-
     expect(tree.height()).toBe(4);
 
     array = [];
     tree = new Tree(array);
-
     expect(tree.height()).toBe(0);
   });
 
@@ -171,22 +166,22 @@ describe('Tree', () => {
     });
 
     test('Level-order traversal', () => {
-      tree.levelOrder(tree.root, callback);
+      tree.levelOrder(callback);
       expect(testArray).toEqual([3, 1, 4, 2, 5]);
     });
 
     test('Pre-order traversal', () => {
-      tree.preOrder(tree.root, callback);
+      tree.preOrder(callback);
       expect(testArray).toEqual([3, 1, 2, 4, 5]);
     });
 
     test('Post-order traversal', () => {
-      tree.postOrder(tree.root, callback);
+      tree.postOrder(callback);
       expect(testArray).toEqual([2, 1, 5, 4, 3]);
     });
 
     test('In-order traversal', () => {
-      tree.inOrder(tree.root, callback);
+      tree.inOrder(callback);
       expect(testArray).toEqual([1, 2, 3, 4, 5]);
     });
   });
@@ -209,7 +204,7 @@ describe('Tree', () => {
     expect(tree.depth(testNode)).toBe(-1);
   });
 
-  // Test 14: Tree rebalancing
+  // Test 14: Tree rebalancing **expects an insert method**
   describe('Tree rebalancing', () => {
     // Check if tree is unbalanced
     test('Check if tree is unbalanced', () => {
@@ -225,7 +220,8 @@ describe('Tree', () => {
       expect(tree.isBalanced()).toBe(false);
     });
 
-    test('Tree rebalancing', () => {
+    // Rebalance an unbalanced tree
+    test('Rebalance an unbalanced tree', () => {
       function generateSortedArray(length, min = 0, max = 100) {
         const array = [];
         while (array.length < length) {

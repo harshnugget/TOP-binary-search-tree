@@ -1,7 +1,7 @@
 import Tree from './Tree.js';
-import Node from './Node.js';
+import Node from './TreeModules/Node.js';
 
-const prettyPrint = (node, prefix = '', isLeft = true) => {
+function prettyPrint(node, prefix = '', isLeft = true) {
   if (node === null) {
     return;
   }
@@ -12,14 +12,25 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
   if (node.left !== null) {
     prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
   }
-};
+}
 
-const tree = new Tree([1, 6, 7, 10, 14]);
+function generateSortedArray(length, min = 0, max = 100) {
+  const array = [];
+  while (array.length < length) {
+    const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+    if (!array.includes(randomNumber)) {
+      array.push(randomNumber);
+    }
+  }
 
-tree.insert(2);
-tree.insert(3);
-tree.insert(4);
-tree.insert(5);
-prettyPrint(tree.root);
-tree.rebalance();
+  // Sort the array in ascending order
+  array.sort((a, b) => a - b);
+
+  return array;
+}
+
+const sortedArray = generateSortedArray(50, 0, 100);
+
+const tree = new Tree(sortedArray);
+
 prettyPrint(tree.root);

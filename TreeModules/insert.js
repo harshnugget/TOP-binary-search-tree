@@ -1,6 +1,6 @@
 import Node from './Node.js';
 
-export default function insertItem(root, value) {
+export default function insert(root, value) {
   if (value === undefined || value === null) {
     throw Error(`No value provided. Value: ${value}`);
   }
