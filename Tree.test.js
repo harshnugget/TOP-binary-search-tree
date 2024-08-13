@@ -128,4 +128,45 @@ describe('Tree', () => {
       expect(tree.root.data).toBe(6);
     });
   });
+
+  // Test 9: Find a value in the tree
+  describe('Find a value', () => {
+    const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    const tree = new Tree(array);
+
+    expect(tree.find(3)).toBe(tree.root.left.right);
+    expect(tree.find(11)).toBe(null);
+  });
+
+  // Test 10: Get height of tree
+  describe('Get tree height', () => {
+    let array = [1, 2, 3];
+    let tree = new Tree(array);
+
+    expect(tree.height()).toBe(2);
+
+    array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    tree = new Tree(array);
+
+    expect(tree.height()).toBe(4);
+
+    array = [];
+    tree = new Tree(array);
+
+    expect(tree.height()).toBe(0);
+  });
+
+  // Test 11: Execute level-order method with a callback
+  describe('Execute level-order method with a callback', () => {
+    const array = [1, 2, 3];
+    const tree = new Tree(array);
+
+    const newArray = [];
+    const callback = (root) => {
+      newArray.push(root.data);
+    };
+
+    tree.levelOrder(callback);
+    expect(newArray).toEqual([2, 1, 3]);
+  });
 });

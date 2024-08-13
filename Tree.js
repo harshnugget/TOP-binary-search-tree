@@ -34,6 +34,35 @@ class Tree {
     return root;
   }
 
+  find(value) {
+    let currentRoot = this.root;
+
+    while (currentRoot) {
+      if (value === currentRoot.data) {
+        return currentRoot; // Value found
+      } else {
+        currentRoot = value < currentRoot.data ? currentRoot.left : currentRoot.right;
+      }
+    }
+
+    // Value not found
+    return null;
+  }
+
+  height(root = this.root) {
+    if (root == null) return 0;
+    else {
+      let leftSubtreeHeight = this.height(root.left);
+      let rightSubtreeHeight = this.height(root.right);
+
+      if (leftSubtreeHeight > rightSubtreeHeight) {
+        return leftSubtreeHeight + 1;
+      } else {
+        return rightSubtreeHeight + 1;
+      }
+    }
+  }
+
   insertItem(value) {
     this.root = insert(this.root, value);
   }
@@ -46,22 +75,49 @@ class Tree {
     }
   }
 
-  find(value) {
-    let currentRoot = this.root;
-
-    while (currentRoot) {
-      if (value === currentRoot.data) {
-        return currentRoot; // Value found
-      } else {
-        if (value < currentRoot.data) {
-          currentRoot = currentRoot.left; // Move to left child
-        } else {
-          currentRoot = currentRoot.right; // Move to right child
-        }
-      }
+  levelOrder(callback) {
+    if (!callback) {
+      throw Error('Required a callback function as an argument');
     }
 
-    return null; // Value not found
+    // Add root to queue to initialize
+    const queue = [this.root];
+
+    // For every item in the queue
+    while (queue.length > 0) {
+      const currentNode = queue[0];
+      const leftChild = currentNode.left;
+      const rightChild = currentNode.right;
+
+      callback(currentNode);
+      queue.shift();
+
+      if (leftChild !== null) {
+        queue.push(leftChild);
+      }
+
+      if (rightChild !== null) {
+        queue.push(rightChild);
+      }
+    }
+  }
+
+  preOrder(callback) {
+    // Start: Root
+    // Mid: Traverse left sub-tree
+    // End: Traverse right sub-tree
+  }
+
+  inOrder(callback) {
+    // Start: Traverse left sub-tree
+    // Mid: Root
+    // End: Traverse right sub-tree
+  }
+
+  postOrder(callback) {
+    // Start: Traverse left sub-tree
+    // Mid: Traverse right sub-tree
+    // End: Root
   }
 }
 
