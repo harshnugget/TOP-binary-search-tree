@@ -72,7 +72,65 @@ class Tree {
     }
   }
 
-  deleteItem(value) {
+  deleteItemRecurse(value) {
+    if (value === undefined || value === null) {
+      throw Error(`No value provided. Value: ${value}`);
+    }
+
+    // Recursively return each node, only changing one that needs to be deleted
+    this.root = deleteItem(this.root, value);
+
+    // Helper function to find in-order successor
+    function findSuccessor(node) {
+      let currentNode = node.right;
+      while (currentNode !== null && currentNode.left !== null) {
+        currentNode = currentNode.left;
+      }
+      return currentNode;
+    }
+
+    function deleteItem(root, value) {
+      // Base case: empty tree
+      if (root === null) {
+        return null;
+      }
+
+      // Traverse the tree to find the node to delete
+      if (value < root.data) {
+        // Traverse left sub-tree
+        root.left = deleteItem(root.left, value);
+      } else if (value > root.data) {
+        // Traverse right sub-tree
+        root.right = deleteItem(root.right, value);
+      } else {
+        // Node with the value found
+
+        if (root.left === null && root.right === null) {
+          // Case 1: Node with no children
+          return null;
+        } else if (root.left === null) {
+          // Case 2: Node with only right child
+          return root.right;
+        } else if (root.right === null) {
+          // Case 3: Node with only left child
+          return root.left;
+        } else {
+          // Case 4: Node with two children
+          const successor = findSuccessor(root);
+
+          // Replace root data with successor data
+          root.data = successor.data;
+
+          // Delete the successor node
+          root.right = deleteItem(root.right, successor.data);
+        }
+      }
+
+      return root;
+    }
+  }
+
+  deleteItemIterative(value) {
     if (value === undefined || value === null) {
       throw Error(`No value provided. Value: ${value}`);
     }
@@ -158,6 +216,24 @@ class Tree {
 
       return { nodeParent, node };
     }
+  }
+
+  find(value) {
+    let currentRoot = this.root;
+
+    while (currentRoot) {
+      if (value === currentRoot.data) {
+        return currentRoot; // Value found
+      } else {
+        if (value < currentRoot.data) {
+          currentRoot = currentRoot.left; // Move to left child
+        } else {
+          currentRoot = currentRoot.right; // Move to right child
+        }
+      }
+    }
+
+    return null; // Value not found
   }
 }
 

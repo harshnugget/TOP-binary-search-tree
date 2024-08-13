@@ -79,8 +79,8 @@ describe('Tree', () => {
     expect(tree.root.right.right).toBeNull();
   });
 
-  // Test 8: Delete a value
-  describe('Delete values from tree', () => {
+  // Test 8: Delete a value using iterative method
+  describe('Delete values from tree using iterative method', () => {
     let tree;
 
     beforeEach(() => {
@@ -89,17 +89,42 @@ describe('Tree', () => {
     });
 
     test('Delete a leaf node', () => {
-      tree.deleteItem(7);
+      tree.deleteItemRecurse(7);
       expect(tree.root.right.left.right).toBe(null);
     });
 
     test('Delete a node with one child', () => {
-      tree.deleteItem(6);
+      tree.deleteItemRecurse(6);
       expect(tree.root.right.left.data).toBe(7);
     });
 
     test('Delete the root', () => {
-      tree.deleteItem(5);
+      tree.deleteItemRecurse(5);
+      expect(tree.root.data).toBe(6);
+    });
+  });
+
+  // Test 8: Delete a value using recursive method
+  describe('Delete values from tree using recursive method', () => {
+    let tree;
+
+    beforeEach(() => {
+      const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+      tree = new Tree(array);
+    });
+
+    test('Delete a leaf node', () => {
+      tree.deleteItemIterative(7);
+      expect(tree.root.right.left.right).toBe(null);
+    });
+
+    test('Delete a node with one child', () => {
+      tree.deleteItemIterative(6);
+      expect(tree.root.right.left.data).toBe(7);
+    });
+
+    test('Delete the root', () => {
+      tree.deleteItemIterative(5);
       expect(tree.root.data).toBe(6);
     });
   });
