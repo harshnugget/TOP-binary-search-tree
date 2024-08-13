@@ -16,5 +16,5 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 const tree = new Tree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
 prettyPrint(tree.root);
-tree.deleteItemRecurse(5);
+tree.deleteItem(5, 'recurse');
 prettyPrint(tree.root);

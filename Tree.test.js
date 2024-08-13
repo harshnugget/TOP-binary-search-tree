@@ -48,7 +48,7 @@ describe('Tree', () => {
   // Test 5: Insert into Empty Tree
   test('Insert a value into an empty tree', () => {
     const tree = new Tree([]);
-    tree.insert(10);
+    tree.insertItem(10);
     expect(tree.root.data).toBe(10);
   });
 
@@ -57,7 +57,7 @@ describe('Tree', () => {
     const array = [2, 4, 6];
     const tree = new Tree(array);
 
-    [1, 3, 5, 7].forEach((value) => tree.insert(value));
+    [1, 3, 5, 7].forEach((value) => tree.insertItem(value));
 
     expect(tree.root.left.left.data).toBe(1);
     expect(tree.root.left.right.data).toBe(3);
@@ -70,7 +70,7 @@ describe('Tree', () => {
     const array = [1, 2, 3];
     const tree = new Tree(array);
 
-    tree.insert(2); // Attempt to insert a duplicate value
+    tree.insertItem(2); // Attempt to insert a duplicate value
 
     expect(tree.root.data).toBe(2);
     expect(tree.root.left.data).toBe(1);
@@ -89,17 +89,17 @@ describe('Tree', () => {
     });
 
     test('Delete a leaf node', () => {
-      tree.deleteItemRecurse(7);
+      tree.deleteItem(7, 'iterative');
       expect(tree.root.right.left.right).toBe(null);
     });
 
     test('Delete a node with one child', () => {
-      tree.deleteItemRecurse(6);
+      tree.deleteItem(6, 'iterative');
       expect(tree.root.right.left.data).toBe(7);
     });
 
     test('Delete the root', () => {
-      tree.deleteItemRecurse(5);
+      tree.deleteItem(5, 'iterative');
       expect(tree.root.data).toBe(6);
     });
   });
@@ -114,17 +114,17 @@ describe('Tree', () => {
     });
 
     test('Delete a leaf node', () => {
-      tree.deleteItemIterative(7);
+      tree.deleteItem(7, 'recursive');
       expect(tree.root.right.left.right).toBe(null);
     });
 
     test('Delete a node with one child', () => {
-      tree.deleteItemIterative(6);
+      tree.deleteItem(6, 'recursive');
       expect(tree.root.right.left.data).toBe(7);
     });
 
     test('Delete the root', () => {
-      tree.deleteItemIterative(5);
+      tree.deleteItem(5, 'recursive');
       expect(tree.root.data).toBe(6);
     });
   });
