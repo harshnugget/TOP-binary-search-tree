@@ -88,7 +88,6 @@ class Tree {
 
     // If node has 0 or 1 child
     if (node.left === null || node.right === null) {
-      // Create childNode variable
       // If node has a left child, set childNode to be the nodes left child
       // Otherwise, set childNode to be the nodes right child (could be null)
       const childNode = node.left !== null ? node.left : node.right;
