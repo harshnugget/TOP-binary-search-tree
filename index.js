@@ -1,5 +1,4 @@
 import Tree from './Tree.js';
-import Node from './TreeModules/Node.js';
 
 function prettyPrint(node, prefix = '', isLeft = true) {
   if (node === null) {
@@ -32,5 +31,6 @@ function generateSortedArray(length, min = 0, max = 100) {
 const sortedArray = generateSortedArray(50, 0, 100);
 
 const tree = new Tree(sortedArray);
+let root = tree.root;
 
-prettyPrint(tree.root);
+prettyPrint(root);
