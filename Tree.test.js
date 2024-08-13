@@ -48,7 +48,7 @@ describe('Tree', () => {
   // Test 5: Insert into Empty Tree
   test('Insert a value into an empty tree', () => {
     const tree = new Tree([]);
-    tree.insertItem(10);
+    tree.insert(10);
     expect(tree.root.data).toBe(10);
   });
 
@@ -57,7 +57,7 @@ describe('Tree', () => {
     const array = [2, 4, 6];
     const tree = new Tree(array);
 
-    [1, 3, 5, 7].forEach((value) => tree.insertItem(value));
+    [1, 3, 5, 7].forEach((value) => tree.insert(value));
 
     expect(tree.root.left.left.data).toBe(1);
     expect(tree.root.left.right.data).toBe(3);
@@ -70,7 +70,7 @@ describe('Tree', () => {
     const array = [1, 2, 3];
     const tree = new Tree(array);
 
-    tree.insertItem(2); // Attempt to insert a duplicate value
+    tree.insert(2); // Attempt to insert a duplicate value
 
     expect(tree.root.data).toBe(2);
     expect(tree.root.left.data).toBe(1);
@@ -130,7 +130,7 @@ describe('Tree', () => {
   });
 
   // Test 9: Find a value in the tree
-  describe('Find a value', () => {
+  test('Find a value', () => {
     const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const tree = new Tree(array);
 
@@ -139,7 +139,7 @@ describe('Tree', () => {
   });
 
   // Test 10: Get height of tree
-  describe('Get tree height', () => {
+  test('Get tree height', () => {
     let array = [1, 2, 3];
     let tree = new Tree(array);
 
@@ -156,17 +156,108 @@ describe('Tree', () => {
     expect(tree.height()).toBe(0);
   });
 
-  // Test 11: Execute level-order method with a callback
-  describe('Execute level-order method with a callback', () => {
-    const array = [1, 2, 3];
-    const tree = new Tree(array);
-
-    const newArray = [];
+  // Test 11: Test level-order, pre-order, in-order and post-order methods with a callback
+  describe('Test level-order, pre-order, in-order and post-order', () => {
+    let tree;
+    let testArray = [];
     const callback = (root) => {
-      newArray.push(root.data);
+      testArray.push(root.data);
     };
 
-    tree.levelOrder(callback);
-    expect(newArray).toEqual([2, 1, 3]);
+    beforeEach(() => {
+      const array = [1, 2, 3, 4, 5];
+      testArray = [];
+      tree = new Tree(array);
+    });
+
+    test('Level-order traversal', () => {
+      tree.levelOrder(tree.root, callback);
+      expect(testArray).toEqual([3, 1, 4, 2, 5]);
+    });
+
+    test('Pre-order traversal', () => {
+      tree.preOrder(tree.root, callback);
+      expect(testArray).toEqual([3, 1, 2, 4, 5]);
+    });
+
+    test('Post-order traversal', () => {
+      tree.postOrder(tree.root, callback);
+      expect(testArray).toEqual([2, 1, 5, 4, 3]);
+    });
+
+    test('In-order traversal', () => {
+      tree.inOrder(tree.root, callback);
+      expect(testArray).toEqual([1, 2, 3, 4, 5]);
+    });
+  });
+
+  // Test 12: Get depth of a root
+  test('Get depth of a root', () => {
+    let array = [1, 2, 3, 4, 5];
+    let tree = new Tree(array);
+
+    expect(tree.depth(tree.root.left.right)).toBe(2);
+
+    // Create node that doesn't exist in the tree
+    const testNode = {
+      data: 6,
+      left: null,
+      right: null,
+    };
+
+    // Test no node found
+    expect(tree.depth(testNode)).toBe(-1);
+  });
+
+  // Test 14: Tree rebalancing
+  describe('Tree rebalancing', () => {
+    // Check if tree is unbalanced
+    test('Check if tree is unbalanced', () => {
+      const array = [1, 2, 3];
+      let tree = new Tree(array);
+
+      expect(tree.isBalanced()).toBe(true);
+
+      tree.insert(4);
+      expect(tree.isBalanced()).toBe(true);
+
+      tree.insert(5);
+      expect(tree.isBalanced()).toBe(false);
+    });
+
+    test('Tree rebalancing', () => {
+      function generateSortedArray(length, min = 0, max = 100) {
+        const array = [];
+        while (array.length < length) {
+          const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+          if (!array.includes(randomNumber)) {
+            array.push(randomNumber);
+          }
+        }
+
+        // Sort the array in ascending order
+        array.sort((a, b) => a - b);
+
+        return array;
+      }
+
+      // Generate a sorted array of 100 random numbers below 100
+      const sortedArray = generateSortedArray(100, 0, 100);
+
+      // Create tree with sorted array
+      let tree = new Tree(sortedArray);
+      expect(tree.isBalanced()).toBe(true);
+
+      // Generate a sorted array of 100 random numbers above 100
+      const newSortedArray = generateSortedArray(20, 100, 200);
+
+      // // Unbalance the tree
+      newSortedArray.forEach((e) => tree.insert(e));
+      expect(tree.isBalanced()).toBe(false);
+
+      // Rebalance the tree
+      tree.rebalance();
+      expect(tree.isBalanced()).toBe(true);
+    });
   });
 });
