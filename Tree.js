@@ -77,29 +77,50 @@ class Tree {
       throw Error(`No value provided. Value: ${value}`);
     }
 
-    /* 
-    Find the node and its parent
+    // Find the node and its parent
+    const { nodeParent, node } = findNodeAndParent(this.root, value);
 
-    If node not found, return
+    // If node not found, return
+    if (node === null) {
+      console.log(`Value: ${value} could not found in the BST.`);
+      return;
+    }
 
-    If node has 0 or 1 child
-      Create childNode variable
-      If node has a left child, set childNode to be the nodes left child
-      Otherwise, set childNode to be the nodes right child (could be null)
+    // If node has 0 or 1 child
+    if (node.left === null || node.right === null) {
+      // Create childNode variable
+      // If node has a left child, set childNode to be the nodes left child
+      // Otherwise, set childNode to be the nodes right child (could be null)
+      const childNode = node.left !== null ? node.left : node.right;
 
-      If the nodes parent is the node
-        Set the trees root to the child node
-        Else if the node is it's parents left child, set the parents left child to childNode
-        Else if the node is it's parents right child, set the parents right child to childNode
+      // If the nodes parent is the node
+      if (nodeParent === node) {
+        // Set the trees root to the child node
+        this.root = childNode;
+      } else if (nodeParent.left === node) {
+        // Else if the node is it's parents left child, set the parents left child to childNode
+        nodeParent.left = childNode;
+      } else {
+        // Else if the node is it's parents right child, set the parents right child to childNode
+        nodeParent.right = childNode;
+      }
+    }
+    // Else if node has two children
+    else {
+      // Find the successor and the successors parent
+      const { successorParent, successor } = findSuccessorAndParent(node);
 
-    Else if node has two children
-      Find the successor and the successors parent
+      // Replace nodes data with successors data
+      node.data = successor.data;
 
-      Replace nodes data with successors data
-
-      If the successor is the right child of the node, set nodes right child to successors right child
-        Otherwise, replace the successor with its right child (which can be null)
-    */
+      // If the successor is the right child of the node, set nodes right child to successors right child
+      if (successorParent === node) {
+        node.right = successor.right;
+      } else {
+        // Otherwise, replace the successor with its right child (which can be null)
+        successorParent.left = successor.right;
+      }
+    }
 
     // Helper function to locate in-order successor and its parent
     function findSuccessorAndParent(node) {
